@@ -1,4 +1,4 @@
-name: Build Bite Browser APK
+name: Build Bite APK
 
 on:
   push:
@@ -15,9 +15,9 @@ jobs:
 
       - name: Unzip project
         run: |
-          unzip project.zip
+          unzip project-2.zip
           cp -r bite-apk/. .
-          rm -rf bite-apk project.zip
+          rm -rf bite-apk project-2.zip
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -34,11 +34,17 @@ jobs:
           gradle-version: '8.0'
 
       - name: Build APK
-        run: gradle assembleRelease --no-daemon --stacktrace
+        run: gradle assembleRelease --no-daemon
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Rename APK
+        run: mv app/build/outputs/apk/release/app-release-unsigned.apk bite.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: BiteBrowser-APK
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
-          retention-days: 30
+          tag_name: v${{ github.run_number }}
+          name: Bite v${{ github.run_number }}
+          body: Latest build of Bite browser
+          files: bite.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
