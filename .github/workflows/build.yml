@@ -15,7 +15,7 @@ jobs:
 
       - name: Unzip project
         run: |
-          unzip project-2.zip
+          unzip project.zip
           cp -r bite-apk/. .
           rm -rf bite-apk project-2.zip
 
