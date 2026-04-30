@@ -1,5 +1,5 @@
 # Bite Browser
-![Bite Browser](Untitled141_20260428190312.png)
+![Bite Browser](bite-thumbnail.png)
 
 ### Bite into something better.
 
